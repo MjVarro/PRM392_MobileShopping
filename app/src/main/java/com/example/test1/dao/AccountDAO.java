@@ -55,7 +55,7 @@ public class AccountDAO {
 
         db.close();
     }
-
+    //
     // Get Account By Username
     public Account getAccountByUsername(String username) {
         String table = TABLE_NAME;
@@ -105,7 +105,20 @@ public class AccountDAO {
         values.put(COLUMN_ROLE_ID, account.getRoleId());
         return db.insert(TABLE_NAME, null, values);
     }
+    // Update Account
+    public int updateAccount(Account account) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME, account.getUsername());
+        values.put(COLUMN_PASSWORD, account.getPassword());
+        values.put(COLUMN_PHONENUMBER, account.getPhoneNumber());
+        values.put(COLUMN_EMAIL, account.getEmail());
+        values.put(COLUMN_ADDRESS, account.getAddress());
+        values.put(COLUMN_ROLE_ID, account.getRoleId());
 
+        String whereClause = COLUMN_ACCOUNT_ID + " = ?";
+        String[] whereArgs = {String.valueOf(account.getAccountId())};
+        return db.update(TABLE_NAME, values, whereClause, whereArgs);
+    }
     // Login Method
     public Account login(String username, String password) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
