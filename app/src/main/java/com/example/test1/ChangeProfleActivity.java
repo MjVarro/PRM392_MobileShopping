@@ -1,5 +1,6 @@
 package com.example.test1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +101,8 @@ public class ChangeProfleActivity extends AppCompatActivity {
         loggedInAccount.setPhoneNumber(updatedPhoneNumber);
         accountDAO.updateAccount(loggedInAccount);
         Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ChangeProfleActivity.this, ProfileActivity.class);
+        startActivity(intent);
         finish();
     }
 

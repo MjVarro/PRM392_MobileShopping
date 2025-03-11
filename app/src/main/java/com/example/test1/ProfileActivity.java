@@ -67,4 +67,5 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
     }
+
 }
