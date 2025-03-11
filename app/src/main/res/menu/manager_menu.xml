@@ -7,33 +7,6 @@
         android:title="User Profile"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_user_profile" />
-    <item
-        android:id="@+id/menu_cart"
-        android:icon="@drawable/ic_menu_cart"
-        android:title="Cart"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/menu_setting"
-        android:title="Setting"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_management" />
-    <item
-        android:id="@+id/menu_management"
-        android:title="Management"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_setting" />
-
-    <item
-        android:id="@+id/menu_req_gps"
-        android:title="Request GPS"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_requestgps" />
-
-    <item
-        android:id="@+id/menu_send_notification"
-        android:title="Send Notification"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_notification" />
 
     <item
         android:id="@+id/menu_logout"

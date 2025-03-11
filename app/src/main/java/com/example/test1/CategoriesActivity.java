@@ -3,19 +3,19 @@ package com.example.test1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.test1.adapter.CategoryAdapter;
 import com.example.test1.dao.CategoryDAO;
 import com.example.test1.entity.Category;
+import com.example.test1.manager.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,10 @@ public class CategoriesActivity extends AppCompatActivity {
     private RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;
     private List<Category> categoryList;
+    private List<Category> fullCategoryList;
     private CategoryDAO categoryDAO;
-    private ImageButton categoriesCartIcon;
-    private TextView categoriesCartBadge;
-
+    private ImageButton backBtn;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,13 @@ public class CategoriesActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate called");
 
+        // Initialize SessionManager
+        sessionManager = new SessionManager(this);
+
+        // Initialize views
         categoriesRecyclerView = findViewById(R.id.categoriesRecyclerView);
+        backBtn = findViewById(R.id.backBtn);
+
         if (categoriesRecyclerView == null) {
             Log.e(TAG, "RecyclerView not found in activity_categories.xml");
             Toast.makeText(this, "RecyclerView not found", Toast.LENGTH_SHORT).show();
@@ -46,38 +52,41 @@ public class CategoriesActivity extends AppCompatActivity {
             Log.d(TAG, "RecyclerView initialized successfully");
         }
 
-        // Initialize cart icon, badge, and cart
-        categoriesCartIcon = findViewById(R.id.categoriesCartIcon);
-        categoriesCartBadge = findViewById(R.id.categoriesCartBadge);
+        // Set up Back button
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v -> goBackToMain());
+        }
 
-
+        // Initialize CategoryDAO and load categories
         categoryDAO = new CategoryDAO(this);
-        // Insert sample categories for testing
         categoryDAO.insertSampleCategories(this);
 
         // Load all categories
-        categoryList = categoryDAO.getAllCategories();
-        if (categoryList == null) {
-            categoryList = new ArrayList<>();
+        fullCategoryList = categoryDAO.getAllCategories();
+        if (fullCategoryList == null) {
+            fullCategoryList = new ArrayList<>();
         }
 
-        Log.d(TAG, "Category List Size: " + (categoryList != null ? categoryList.size() : "null"));
+        Log.d(TAG, "Full Category List Size: " + fullCategoryList.size());
+
+        // Initialize categoryList with a copy of fullCategoryList
+        categoryList = new ArrayList<>(fullCategoryList);
 
         if (categoryList.isEmpty()) {
             Log.w(TAG, "Category List is empty, adding manual data");
             categoryList.add(new Category(1, "Electronics", "Electronic devices and gadgets"));
             categoryList.add(new Category(2, "Clothing", "Fashion and apparel"));
+            fullCategoryList.addAll(categoryList);
             Log.d(TAG, "Added manual sample data, Category List Size: " + categoryList.size());
         }
 
-        categoryAdapter = new CategoryAdapter(categoryList);
-        if (categoryAdapter == null) {
-            Log.e(TAG, "CategoryAdapter is null");
-        } else {
-            Log.d(TAG, "CategoryAdapter initialized with " + categoryList.size() + " items");
-        }
+        // Initialize CategoryAdapter with callback
+        categoryAdapter = new CategoryAdapter(categoryList, category -> {
+            Intent intent = new Intent(CategoriesActivity.this, ProductListActivity.class);
+            intent.putExtra("categoryId", category.getCategoryId());
+            startActivity(intent);
+        });
 
-        // Use GridLayoutManager for a 3-column grid
         categoriesRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         Log.d(TAG, "GridLayoutManager set with 3 columns");
         categoriesRecyclerView.setAdapter(categoryAdapter);
@@ -104,50 +113,79 @@ public class CategoriesActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "SearchView not found in activity_categories.xml");
         }
-
-        categoriesCartBadge = findViewById(R.id.categoriesCartBadge);
-        categoriesCartIcon = findViewById(R.id.categoriesCartIcon);
-        if (categoriesCartIcon != null) {
-            categoriesCartIcon.setOnClickListener(v -> {
-                startActivity(new Intent(this, ShoppingCartActivity.class));
-            });
-        }
-        updateCartCount();
     }
 
+    // Thêm menu vào Activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-    public void goBack(View view) {
-        Log.d(TAG, "Back button clicked, navigating back");
-        onBackPressed(); // Call the default back press behavior
+    // Xử lý sự kiện khi chọn item trong menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_user_profile) {
+            if (sessionManager.isLoggedIn()) {
+                startActivity(new Intent(this, ProfileActivity.class));
+            } else {
+                Toast.makeText(this, "Please log in to view your profile", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+            }
+            return true;
+        } else if (itemId == R.id.menu_categories) {
+            startActivity(new Intent(this, CategoriesActivity.class));
+            finish();
+            return true;
+        } else if (itemId == R.id.menu_cart) {
+            startActivity(new Intent(this, ShoppingCartActivity.class));
+            return true;
+        } else if (itemId == R.id.menu_logout) {
+            if (sessionManager.isLoggedIn()) {
+                // sessionManager.logoutUser();
+                Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, "You are not logged in", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void goBackToMain() {
+        Log.d(TAG, "Back button clicked, navigating to MainActivity");
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "Back pressed, navigating to MainActivity");
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     private void filterCategories(String query) {
         Log.d(TAG, "Filtering categories with query: " + query);
-        if (categoryList == null || categoryList.isEmpty()) {
-            Log.w(TAG, "Category list is empty or null, cannot filter");
-            categoryList.clear();
-            categoryAdapter.notifyDataSetChanged();
-            return;
-        }
-
-        List<Category> filteredList = new ArrayList<>();
-        for (Category category : categoryList) {
-            if (category != null && category.getCategoryName() != null &&
-                    category.getCategoryName().toLowerCase().contains(query.toLowerCase().trim())) {
-                filteredList.add(category);
+        query = query.trim().toLowerCase();
+        categoryList.clear();
+        if (query.isEmpty()) {
+            categoryList.addAll(fullCategoryList);
+        } else {
+            for (Category category : fullCategoryList) {
+                if (category != null && category.getCategoryName() != null &&
+                        category.getCategoryName().toLowerCase().contains(query)) {
+                    categoryList.add(category);
+                }
             }
         }
-
-        categoryList.clear();
-        categoryList.addAll(filteredList);
         categoryAdapter.notifyDataSetChanged();
-        Log.d(TAG, "Filtered category list size: " + filteredList.size());
-    }
-    public void updateCartCount() {
-        int count = ShoppingCartManager.getInstance().getCartItemCount();
-        if (categoriesCartBadge != null) {
-            categoriesCartBadge.setText(String.valueOf(count));
-            categoriesCartBadge.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+        if (categoryList.isEmpty()) {
+            Toast.makeText(this, "No categories found", Toast.LENGTH_SHORT).show();
         }
     }
 }

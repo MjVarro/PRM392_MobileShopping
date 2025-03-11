@@ -184,10 +184,10 @@ public class ProductDAO {
                 new Product(3, 1, "Product 3", "Description", 199.99, 40, false, R.drawable.product3, 20),
                 new Product(4, 2, "Product 4", "Description", 129.99, 60, true, R.drawable.product4, 15),
                 new Product(5, 2, "Product 5", "Description", 89.99, 80, false, R.drawable.product5, 10),
-                new Product(6, 3, "Product 6", "Description", 159.99, 30, true, R.drawable.product6, 25),
-                new Product(7, 3, "Product 7", "Description", 109.99, 90, false, R.drawable.product7, 35),
-                new Product(8, 4, "Product 8", "Description", 179.99, 20, true, R.drawable.product8, 45),
-                new Product(9, 4, "Product 9", "Description", 69.99, 110, false, R.drawable.product9, 5)
+                new Product(6, 2, "Product 6", "Description", 159.99, 30, true, R.drawable.product6, 25),
+                new Product(7, 2, "Product 7", "Description", 109.99, 90, false, R.drawable.product7, 35),
+                new Product(8, 2, "Product 8", "Description", 179.99, 20, true, R.drawable.product8, 45),
+                new Product(9, 2, "Product 9", "Description", 69.99, 110, false, R.drawable.product9, 5)
         );
 
         for (Product product : products) {

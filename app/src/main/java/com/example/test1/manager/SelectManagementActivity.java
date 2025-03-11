@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +14,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.test1.R;
+import com.example.test1.LoginActivity;
+import com.example.test1.ProfileActivity;
 import com.example.test1.ShoppingCartActivity;
 
+
 public class SelectManagementActivity extends AppCompatActivity {
+
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,9 @@ public class SelectManagementActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Khởi tạo SessionManager
+        sessionManager = new SessionManager(this);
 
         // Set up button click listeners
         LinearLayout layoutUserManagement = findViewById(R.id.layoutUserManagement);
@@ -52,32 +60,23 @@ public class SelectManagementActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.menu_user_profile) {// Handle Edit User Profile click
-            System.out.println("Edit User Profile clicked");
-//            Intent intent = new Intent(this, ViewUserProfileActivity.class);
-//            startActivity(intent);
+        if (itemId == R.id.menu_user_profile) {
+            if (sessionManager.isLoggedIn()) {
+                startActivity(new Intent(this, ProfileActivity.class));
+            } else {
+                Toast.makeText(this, "Please log in to view your profile", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+            }
             return true;
-        } else if (itemId == R.id.menu_cart) {// Handle Services click
-            System.out.println("Cart clicked");
-            Intent intent = new Intent(this, ShoppingCartActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (itemId == R.id.menu_setting) {// Handle Setting click
-            System.out.println("Setting clicked");
-            return true;
-        } else if (itemId == R.id.menu_management) {// Handle Management click
-            System.out.println("Management clicked");
-            Intent intent = new Intent(this, SelectManagementActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (itemId == R.id.menu_req_gps) {// Handle Request GPS click
-            System.out.println("Request GPS clicked");
-            return true;
-        } else if (itemId == R.id.menu_send_notification) {// Handle Send Notification click
-            System.out.println("Send Notification clicked");
-            return true;
-        } else if (itemId == R.id.menu_logout) {// Handle Logout click
-            System.out.println("Logout clicked");
+        } else if (itemId == R.id.menu_logout) {
+            if (sessionManager.isLoggedIn()) {
+//                sessionManager.logoutUser(); // Đảm bảo phương thức này tồn tại trong SessionManager
+                Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, "You are not logged in", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,6 +1,5 @@
-    package com.example.test1.dao;
+package com.example.test1.dao;
 
-// CategoryDAO.java
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,9 +25,10 @@ public class CategoryDAO {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Log.d(TAG, "Adding category: " + category.getCategoryName());
         ContentValues values = new ContentValues();
+        values.put("categoryId", category.getCategoryId()); // Thêm categoryId cố định
         values.put("categoryName", category.getCategoryName());
         values.put("categoryDescription", category.getCategoryDescription());
-        long result = db.insert("Categories", null, values);
+        long result = db.insertWithOnConflict("Categories", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         if (result != -1) {
             Log.d(TAG, "Category added successfully with ID: " + result);
         } else {
@@ -120,8 +120,9 @@ public class CategoryDAO {
     public void insertSampleCategories(Context context) {
         Log.d(TAG, "Inserting sample categories");
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete("Categories", null, null);
+        db.delete("Categories", null, null); // Xóa dữ liệu cũ
 
+        // Chèn với categoryId cố định
         Category category1 = new Category(1, "Electronics", "Electronic devices and gadgets");
         Category category2 = new Category(2, "Clothing", "Fashion and apparel");
         addCategory(category1);

@@ -100,12 +100,12 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putInt("accountId", account.getAccountId());
                     editor.apply();
                     switch (account.getRoleId()) {
-                        case 0: // Admin or Manager role
+                        case 1: // Admin or Manager role
                             Intent intentAdmin = new Intent(LoginActivity.this, SelectManagementActivity.class);
                             startActivity(intentAdmin);
                             finish();
                             break;
-                        case 1: // Regular user role
+                        case 0: // Regular user role
                             Intent intentUser = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intentUser);
                             finish();

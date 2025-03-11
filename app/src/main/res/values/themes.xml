@@ -15,4 +15,7 @@
         <item name="colorOnPrimary">@color/design_default_color_primary_dark</item>
     </style>
     <style name="Theme.Test1" parent="Base.Theme.Test1" />
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
 </resources>

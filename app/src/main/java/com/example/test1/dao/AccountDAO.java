@@ -28,6 +28,18 @@ public class AccountDAO {
         db = dbHelper.getWritableDatabase();
     }
 
+    // ... (các phương thức khác giữ nguyên)
+
+    // Delete Account
+    public boolean deleteAccount(int accountId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String whereClause = COLUMN_ACCOUNT_ID + " = ?";
+        String[] whereArgs = {String.valueOf(accountId)};
+        int rowsDeleted = db.delete(TABLE_NAME, whereClause, whereArgs);
+        Log.d("AccountDAO", "Deleted account with ID: " + accountId + ", Rows affected: " + rowsDeleted);
+        return rowsDeleted > 0;
+    }
+
     // Insert sample accounts for testing
     public void insertSampleAccounts() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -55,7 +67,7 @@ public class AccountDAO {
 
         db.close();
     }
-    //
+
     // Get Account By Username
     public Account getAccountByUsername(String username) {
         String table = TABLE_NAME;
@@ -91,8 +103,6 @@ public class AccountDAO {
         }
         return null;
     }
-   
-
 
     // Insert a new account
     public long insertAccount(Account account) {
@@ -105,6 +115,7 @@ public class AccountDAO {
         values.put(COLUMN_ROLE_ID, account.getRoleId());
         return db.insert(TABLE_NAME, null, values);
     }
+
     // Update Account
     public int updateAccount(Account account) {
         ContentValues values = new ContentValues();
@@ -119,6 +130,7 @@ public class AccountDAO {
         String[] whereArgs = {String.valueOf(account.getAccountId())};
         return db.update(TABLE_NAME, values, whereClause, whereArgs);
     }
+
     // Login Method
     public Account login(String username, String password) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
