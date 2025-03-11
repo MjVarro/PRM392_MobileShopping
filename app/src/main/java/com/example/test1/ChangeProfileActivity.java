@@ -17,7 +17,7 @@ import com.example.test1.entity.Account;
 import com.example.test1.manager.SessionManager;
 import com.example.test1.validation.Validation;
 
-public class ChangeProfleActivity extends AppCompatActivity {
+public class ChangeProfileActivity extends AppCompatActivity {
     private static final String TAG = "ChangeProfleActivity";
     private EditText etEmail, etPhoneNumber;
     private Button btnSave;
@@ -101,7 +101,7 @@ public class ChangeProfleActivity extends AppCompatActivity {
         loggedInAccount.setPhoneNumber(updatedPhoneNumber);
         accountDAO.updateAccount(loggedInAccount);
         Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(ChangeProfleActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(ChangeProfileActivity.this, ProfileActivity.class);
         startActivity(intent);
         finish();
     }
