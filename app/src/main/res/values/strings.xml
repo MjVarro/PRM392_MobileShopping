@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Test1</string>
+    <string name="product_name">Product Name</string>
+    <string name="price">Price</string>
+    <string name="sales">Sales</string>
+    <string name="search_hint">Search</string>
+    <string name="back">Back</string>
+    <string name="filter">Filter</string>
+    <string name="cart">Cart</string>
+    <string name="chat">Chat</string>
+    <string name="product_image">Product Image</string>
+    <string name="thumbnail_image">Thumbnail Image</string>
+    <string name="product_review">Product Review</string>
+    <string name="rating">4.5</string>
+    <string name="see_all_reviews">All ></string>
+    <string name="chat_now">Chat now</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="buy_now">Buy now</string>
+    <string name="review_image">Review Image</string>
+    <string name="bottom_favorite">Recommend</string>
+    <string name="bottom_bag">Categories</string>
+    <string name="bottom_bell">Notifications</string>
+    <string name="bottom_profile">Profile</string>
+</resources>

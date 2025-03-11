@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <!-- Search View with Cart Icon and Badge -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:background="@android:color/darker_gray">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="Back"
+            android:onClick="goBack" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/categoriesSearchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:queryHint="Search categories..."
+            android:padding="8dp"
+            android:background="@android:color/transparent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/categoriesCartIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_cart"
+                android:background="?android:attr/actionBarItemBackground"
+                android:contentDescription="Cart"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/categoriesCartBadge"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:text="0"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:layout_marginStart="-8dp"
+                android:layout_marginTop="-8dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!-- Sorting Options (Optional, can be customized) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Name A-Z"
+            android:textSize="14sp"
+            android:padding="4dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Name Z-A"
+            android:textSize="14sp"
+            android:padding="4dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Categories Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CATEGORIES"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="16dp" />
+
+    <!-- RecyclerView for Categories (Grid Layout) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoriesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:padding="8dp">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_compass"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="Recommendations" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="Categories" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_dialog_alert"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="Notifications" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_myplaces"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="Profile" />
+    </LinearLayout>
+
+</LinearLayout>
