@@ -47,8 +47,8 @@ public class ChangeProfleActivity extends AppCompatActivity {
         loadAccountInfo();
         // Set button click listener
         btnSave.setOnClickListener(v -> saveAccountInfo() );
-            // Get the updated email and phone number from the EditText fields
-           ;
+        // Get the updated email and phone number from the EditText fields
+        ;
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

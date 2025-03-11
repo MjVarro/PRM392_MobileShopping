@@ -1,9 +1,11 @@
 package com.example.test1;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -91,9 +93,13 @@ public class MainActivity extends AppCompatActivity {
             if (sessionManager.isLoggedIn()) {
                 startActivity(new Intent(this, ProfileActivity.class));
             } else {
+
                 Toast.makeText(this, "Please log in to view your profile", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
             }
+
+
+
             return true;
         } else if (itemId == R.id.menu_categories) {
             startActivity(new Intent(this, CategoriesActivity.class));
@@ -145,6 +151,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showLoggedInDialog() {
-        // ... (giữ nguyên phương thức này)
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_not_logged_in);
+        Button btnLogin = dialog.findViewById(R.id.btn_login_dialog);
+        if (btnLogin != null) {
+            btnLogin.setOnClickListener(v -> {
+                startActivity(new Intent(this, LoginActivity.class));
+                dialog.dismiss();
+            });
+        }
+        dialog.show();
     }
 }
