@@ -43,23 +43,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         detailTextSales = findViewById(R.id.detailTextSales);
 
         // Initialize SearchView (optional functionality)
-        SearchView searchView = findViewById(R.id.searchView);
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    // Implement search functionality if needed
-                    Toast.makeText(ProductDetailActivity.this, "Search: " + query, Toast.LENGTH_SHORT).show();
-                    return true;
-                }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    // Implement search functionality if needed
-                    return true;
-                }
-            });
-        }
+
 
         Intent intent = getIntent();
         int productId = intent.getIntExtra(EXTRA_PRODUCT_ID, -1);
