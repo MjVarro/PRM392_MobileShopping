@@ -13,6 +13,12 @@
         android:title="Categories"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/menu_home"
+        android:title="Home"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_home"/>
+
 
     <item
         android:id="@+id/menu_cart"

@@ -120,6 +120,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             startActivity(new Intent(this, CategoriesActivity.class));
             finish();
             return true;
+        } else if (itemId == R.id.menu_home){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return true;
         } else if (itemId == R.id.menu_cart) {
             startActivity(new Intent(this, ShoppingCartActivity.class));
             return true;

@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize DAO
         accountDAO = new AccountDAO(this);
+        accountDAO.insertSampleAccounts();
 
         // Password visibility toggle
         tv_password_visibility.setOnClickListener(v -> {

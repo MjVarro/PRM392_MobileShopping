@@ -1,4 +1,4 @@
-package com.example.test1.adapter;
+package com.example.test1;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test1.R;
 import com.example.test1.entity.CartItem;
 
 import java.util.List;
