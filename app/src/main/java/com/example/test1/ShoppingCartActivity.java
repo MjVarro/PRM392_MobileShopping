@@ -26,7 +26,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private TextView emptyCartMessage;
     private TextView textTotalPayment;
     private CartAdapter cartAdapter;
-    private ImageButton backBtn;
+
     private Button btnCheckout;
     private Button btnSelectAll;
     private SessionManager sessionManager;
@@ -53,7 +53,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
         emptyCartMessage = findViewById(R.id.emptyCartMessage);
         textTotalPayment = findViewById(R.id.textTotalPayment);
-        backBtn = findViewById(R.id.backButton);
+
         btnCheckout = findViewById(R.id.btnCheckout);
         btnSelectAll = findViewById(R.id.btnSelectAll); // Liên kết với nút Select All
 
@@ -66,7 +66,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         updateTotalPayment();
         toggleCartVisibility(cartItems);
 
-        backBtn.setOnClickListener(v -> onBackPressed());
+
 
         btnSelectAll.setOnClickListener(v -> {
             isAllSelected = !isAllSelected; // Chuyển đổi trạng thái
