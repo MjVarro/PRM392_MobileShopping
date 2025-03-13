@@ -12,8 +12,9 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "EcommerceDB";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3; // Tăng version để thêm bảng Cart
 
+    // Bảng Accounts
     private static final String TABLE_ACCOUNTS = "Accounts";
     private static final String COLUMN_ID = "accountId";
     private static final String COLUMN_USERNAME = "username";
@@ -23,9 +24,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ADDRESS = "address";
     private static final String COLUMN_ROLE_ID = "roleId";
 
+    // Bảng Products
     private static final String TABLE_PRODUCTS = "Products";
 
-    // Table creation SQL
+    // Bảng Cart
+    private static final String TABLE_CART = "Cart";
+    private static final String COLUMN_CART_ID = "cartId";
+    private static final String COLUMN_PRODUCT_ID = "productId";
+    private static final String COLUMN_QUANTITY = "quantity";
+    private static final String COLUMN_SELECTED = "selected";
+
+    // SQL để tạo bảng Accounts
     private static final String SQL_CREATE_ACCOUNTS =
             "CREATE TABLE Accounts (" +
                     "accountId INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -36,12 +45,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "address TEXT, " +
                     "roleId INTEGER)";
 
+    // SQL để tạo bảng Categories
     private static final String SQL_CREATE_CATEGORIES =
             "CREATE TABLE Categories (" +
                     "categoryId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "categoryName TEXT, " +
                     "categoryDescription TEXT)";
 
+    // SQL để tạo bảng Products
     private static final String SQL_CREATE_PRODUCTS =
             "CREATE TABLE Products (" +
                     "productId INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -55,6 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "sales INTEGER, " +
                     "FOREIGN KEY (categoryId) REFERENCES Categories(categoryId))";
 
+    // SQL để tạo bảng Orders
     private static final String SQL_CREATE_ORDERS =
             "CREATE TABLE Orders (" +
                     "orderId INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -66,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "paymentMethod INTEGER, " +
                     "FOREIGN KEY (accountId) REFERENCES Accounts(accountId))";
 
+    // SQL để tạo bảng OrderDetails
     private static final String SQL_CREATE_ORDER_DETAILS =
             "CREATE TABLE OrderDetails (" +
                     "orderDetailId INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -73,6 +86,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "productId INTEGER, " +
                     "buyQuantity INTEGER, " +
                     "FOREIGN KEY (orderId) REFERENCES Orders(orderId), " +
+                    "FOREIGN KEY (productId) REFERENCES Products(productId))";
+
+    // SQL để tạo bảng Cart
+    private static final String SQL_CREATE_CART =
+            "CREATE TABLE Cart (" +
+                    "cartId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "productId INTEGER, " +
+                    "quantity INTEGER, " +
+                    "selected INTEGER, " +
                     "FOREIGN KEY (productId) REFERENCES Products(productId))";
 
     public DatabaseHelper(Context context) {
@@ -86,16 +108,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PRODUCTS);
         db.execSQL(SQL_CREATE_ORDERS);
         db.execSQL(SQL_CREATE_ORDER_DETAILS);
+        db.execSQL(SQL_CREATE_CART);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS OrderDetails");
-        db.execSQL("DROP TABLE IF EXISTS Orders");
-        db.execSQL("DROP TABLE IF EXISTS Products");
-        db.execSQL("DROP TABLE IF EXISTS Categories");
-        db.execSQL("DROP TABLE IF EXISTS Accounts");
-        onCreate(db);
+        if (oldVersion < 2) {
+            // Nếu nâng cấp từ version 1 lên version 2, xóa và tạo lại tất cả bảng
+            db.execSQL("DROP TABLE IF EXISTS OrderDetails");
+            db.execSQL("DROP TABLE IF EXISTS Orders");
+            db.execSQL("DROP TABLE IF EXISTS Products");
+            db.execSQL("DROP TABLE IF EXISTS Categories");
+            db.execSQL("DROP TABLE IF EXISTS Accounts");
+            onCreate(db);
+        } else if (oldVersion < 3) {
+            // Nếu nâng cấp từ version 2 lên version 3, thêm bảng Cart
+            db.execSQL(SQL_CREATE_CART);
+        }
     }
 
     // Get all accounts
