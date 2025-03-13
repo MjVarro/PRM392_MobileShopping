@@ -42,8 +42,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         detailTextPrice = findViewById(R.id.detailTextPrice);
         detailTextSales = findViewById(R.id.detailTextSales);
 
-        // Initialize SearchView (optional functionality)
-
 
 
         Intent intent = getIntent();
