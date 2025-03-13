@@ -28,8 +28,11 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private CartAdapter cartAdapter;
     private ImageButton backBtn;
     private Button btnCheckout;
+    private Button btnSelectAll;
     private SessionManager sessionManager;
     private CartDAO cartDAO;
+    private List<CartItem> cartItems; // Lưu danh sách cartItems để sử dụng trong các phương thức
+    private boolean isAllSelected = false; // Theo dõi trạng thái Select All
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,11 @@ public class ShoppingCartActivity extends AppCompatActivity {
         textTotalPayment = findViewById(R.id.textTotalPayment);
         backBtn = findViewById(R.id.backButton);
         btnCheckout = findViewById(R.id.btnCheckout);
+        btnSelectAll = findViewById(R.id.btnSelectAll); // Liên kết với nút Select All
+
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
 
-        List<CartItem> cartItems = cartDAO.getCartItems(); // Lấy từ bảng Cart
+        cartItems = cartDAO.getCartItems(); // Lấy từ bảng Cart
         cartAdapter = new CartAdapter(cartItems, this);
         recyclerViewCart.setAdapter(cartAdapter);
 
@@ -62,6 +67,17 @@ public class ShoppingCartActivity extends AppCompatActivity {
         toggleCartVisibility(cartItems);
 
         backBtn.setOnClickListener(v -> onBackPressed());
+
+        btnSelectAll.setOnClickListener(v -> {
+            isAllSelected = !isAllSelected; // Chuyển đổi trạng thái
+            for (CartItem item : cartItems) {
+                item.setSelected(isAllSelected);
+                cartDAO.updateCartItem(item); // Cập nhật trạng thái selected vào DB
+            }
+            btnSelectAll.setText(isAllSelected ? "Deselect All" : "Select All"); // Cập nhật văn bản nút
+            cartAdapter.notifyDataSetChanged(); // Cập nhật giao diện
+            updateTotalPayment(); // Cập nhật tổng thanh toán
+        });
 
         btnCheckout.setOnClickListener(v -> {
             if (!sessionManager.isLoggedIn()) {
@@ -98,7 +114,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     public void updateTotalPayment() {
         double total = 0;
-        List<CartItem> cartItems = cartDAO.getCartItems();
         for (CartItem item : cartItems) {
             if (item.isSelected()) {
                 total += item.getProduct().getUnitPrice() * item.getQuantity();
@@ -115,5 +130,16 @@ public class ShoppingCartActivity extends AppCompatActivity {
             recyclerViewCart.setVisibility(View.VISIBLE);
             emptyCartMessage.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Làm mới danh sách giỏ hàng khi Activity được quay lại
+        cartItems.clear();
+        cartItems.addAll(cartDAO.getCartItems());
+        cartAdapter.notifyDataSetChanged();
+        updateTotalPayment();
+        toggleCartVisibility(cartItems);
     }
 }
