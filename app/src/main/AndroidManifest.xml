@@ -64,6 +64,7 @@
             android:exported="true"
             android:launchMode="singleTask" />
         <activity android:name=".CheckoutActivity" />
+        <activity android:name=".OrderListActivity" />
     </application>
 
 </manifest>

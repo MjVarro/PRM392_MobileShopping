@@ -19,12 +19,17 @@
         app:showAsAction="never"
         android:icon="@drawable/ic_home"/>
 
-
     <item
         android:id="@+id/menu_cart"
         android:title="Cart"
         app:showAsAction="ifRoom"
-    android:icon="@drawable/ic_cart" />
+        android:icon="@drawable/ic_cart" />
+
+    <!-- Thêm mục Order -->
+    <item
+        android:id="@+id/menu_orders"
+        android:title="Orders"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_logout"
