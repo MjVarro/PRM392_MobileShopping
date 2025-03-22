@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "EcommerceDB";
-    private static final int DATABASE_VERSION = 3; // Tăng version để thêm bảng Cart
+    private static final int DATABASE_VERSION = 5; // Tăng version để thêm bảng Cart
 
     // Bảng Accounts
     private static final String TABLE_ACCOUNTS = "Accounts";

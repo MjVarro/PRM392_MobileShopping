@@ -35,7 +35,7 @@ public class UpdateProductActivity extends AppCompatActivity {
         etProductDescription = findViewById(R.id.etProductDescription);
         etUnitPrice = findViewById(R.id.etUnitPrice);
         etUnitQuantity = findViewById(R.id.etUnitQuantity);
-        etImageUrl = findViewById(R.id.etImageUrl); // Thay etImageResId bằng etImageUrl
+        etImageUrl = findViewById(R.id.etImageUrl); //
         etCategoryId = findViewById(R.id.etCategoryId);
 
         loadProductData();
