@@ -187,8 +187,17 @@ public class ProductDAO {
                 new Product(6, 2, "Product 6", "Description", 159.99, 30, true, R.drawable.product6, 25),
                 new Product(7, 2, "Product 7", "Description", 109.99, 90, false, R.drawable.product7, 35),
                 new Product(8, 2, "Product 8", "Description", 179.99, 20, true, R.drawable.product8, 45),
-                new Product(9, 2, "Product 9", "Description", 69.99, 110, false, R.drawable.product9, 5)
-        );
+                new Product(9, 2, "Product 9", "Description", 69.99, 110, false, R.drawable.product9, 5),
+        new Product(10, 3, "Pork", "Description", 15.99, 50, true, R.drawable.product10, 20), // Meat
+                new Product(11, 4, "Chicken Eggs", "Fresh free-range eggs", 3.99, 200, true, R.drawable.product16, 100),
+                new Product(12, 5, "Watercress", "Description", 2.49, 150, false, R.drawable.product12, 60),
+                new Product(13, 6, "MLB Jacket", "Description", 102.99, 80, true, R.drawable.product14, 40),
+                new Product(14, 6, "MLB Set", "Description", 129.99, 60, false, R.drawable.product15, 25),
+                new Product(15, 3, "Chicken", "Description", 14.99, 60, false, R.drawable.product11, 25),
+                new Product(16, 5, "cabbage", "Description", 14.99, 60, false, R.drawable.product13, 25)
+
+
+                );
 
         for (Product product : products) {
             ContentValues values = new ContentValues();

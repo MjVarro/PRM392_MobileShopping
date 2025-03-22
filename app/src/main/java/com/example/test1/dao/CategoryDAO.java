@@ -125,8 +125,16 @@ public class CategoryDAO {
         // Chèn với categoryId cố định
         Category category1 = new Category(1, "Electronics", "Electronic devices and gadgets");
         Category category2 = new Category(2, "Clothing", "Fashion and apparel");
+        Category meat = new Category(3, "Meat", "Fresh and processed meat products");
+        Category eggs = new Category(4, "Eggs", "Various types of eggs");
+        Category vegetables = new Category(5, "Vegetables", "Fresh vegetables and greens");
+        Category clothing = new Category(6, "Clothing", "Fashion and apparel");
         addCategory(category1);
         addCategory(category2);
+        addCategory(meat);
+        addCategory(eggs);
+        addCategory(vegetables);
+        addCategory(clothing);
 
         Log.d(TAG, "Sample categories inserted successfully");
         db.close();
